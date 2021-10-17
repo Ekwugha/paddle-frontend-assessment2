@@ -1,63 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 function App() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [stars, setStars] = useState('');
-  const [issues, setIssues] = useState('');
-  const [time, setTime] = useState('');
+  const [data, setData] = useState({});
+  const [page, setPage] = useState(1)
 
-  useEffect(() => {
-    fetch('https://api.github.com/search/repositories?q=created:>2021-08-13&sort=stars&order=desc')
+  const fetchRepo = () => {
+    fetch(`https://api.github.com/search/repositories?q=created:>2021-08-13&sort=stars&order=desc&page=${page}`)
     .then(res => res.json())
     .then(data => {
       setData(data)
     })
-  }, []);
+  }
 
-  const setData = ({ name, description, avatar_url, stargazers_count, open_issues_count, created_at }) => {
-    setName(name);
-    setDescription(description);
-    setAvatar(avatar_url);
-    setStars(stargazers_count);
-    setIssues(open_issues_count);
-    setTime(created_at);
-  };
+  useEffect(() => {
+    fetchRepo()
+  }, [page]);
 
-
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
 
   return (
-    <div className="App py-5" >
-      <Card className="mx-auto" style={{ width: '45rem' }}>
+    <div className="App" >
+    <h1 className="text-center my-5 bg-light"> GitHub Repo's With The Highest Stars </h1>
+    <Button onClick={() => setPage(2)}> Next Page </Button>
+    {data?.items?.map(item => (
+      <Card className="mx-auto" style={{ width: '40rem' }}>
         <Row>
-          <Col xs={6}>
-            <Card.Img src={avatar} />
+          <Col xs={3}>
+            <Card.Img className="m-5" alt={item.name} src={item.owner.avatar_url} />
           </Col>
 
-            <Col xs={6}>
+            <Col xs={9}>
               <Card.Body>
-                <Card.Title>{name}</Card.Title>
-                <h5>{description}</h5>
+                <Card.Title>{item.name}</Card.Title>
+                <p>{item.description}</p>
                 <Row>
                   <Col  md={4}>
                     <Card.Footer>
-                      Stars: {stars}
+                      Stars: {item.stargazers_count}
                     </Card.Footer>
                   </Col>
 
                   <Col  md={4}>
                     <Card.Footer>
-                      Issues: {issues}
+                      Issues: {item.open_issues_count}
                     </Card.Footer>
                   </Col>
 
                   <Col  md={4}> 
-                    <p> Submitted on {time} by {name} </p>
+                    <p> Submitted on {item.created_at.substring(0,10)} by {item.name} </p>
                   </Col>
                 </Row>
               </Card.Body>
@@ -65,6 +61,8 @@ function App() {
 
           </Row>
       </Card>
+    ))}
+      
     </div>
   );
 }
