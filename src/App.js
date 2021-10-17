@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App py-5" >
-      <Card className="mx-auto" style={{ width: '55rem' }}>
+      <Card className="mx-auto" style={{ width: '45rem' }}>
         <Row>
           <Col xs={6}>
             <Card.Img src={avatar} />
@@ -44,19 +44,19 @@ function App() {
                 <Card.Title>{name}</Card.Title>
                 <h5>{description}</h5>
                 <Row>
-                  <Col xs={4}>
+                  <Col  md={4}>
                     <Card.Footer>
                       Stars: {stars}
                     </Card.Footer>
                   </Col>
 
-                  <Col xs={4}>
+                  <Col  md={4}>
                     <Card.Footer>
                       Issues: {issues}
                     </Card.Footer>
                   </Col>
 
-                  <Col xs={4}> 
+                  <Col  md={4}> 
                     <p> Submitted on {time} by {name} </p>
                   </Col>
                 </Row>
