@@ -27,32 +27,32 @@ function App() {
   return (
     <div className="App" >
     <h1 className="text-center my-5 bg-light"> GitHub Repo's With The Highest Stars </h1>
-    <Button onClick={() => setPage(2)}> Next Page </Button>
+    <Button className="mx-3 mb-3 bg-dark text-light border-light" onClick={() => setPage(2)}> Next Page </Button>
     {data?.items?.map(item => (
-      <Card className="mx-auto" style={{ width: '40rem' }}>
+      <Card className="mx-auto" >
         <Row>
-          <Col xs={3}>
+          <Col xs={6} md={3}>
             <Card.Img className="m-5" alt={item.name} src={item.owner.avatar_url} />
           </Col>
 
-            <Col xs={9}>
+            <Col xs={6} md={9}>
               <Card.Body>
                 <Card.Title>{item.name}</Card.Title>
                 <p>{item.description}</p>
                 <Row>
-                  <Col  md={4}>
+                  <Col md={4}>
                     <Card.Footer>
                       Stars: {item.stargazers_count}
                     </Card.Footer>
                   </Col>
 
-                  <Col  md={4}>
+                  <Col md={4}>
                     <Card.Footer>
                       Issues: {item.open_issues_count}
                     </Card.Footer>
                   </Col>
 
-                  <Col  md={4}> 
+                  <Col md={4}> 
                     <p> Submitted on {item.created_at.substring(0,10)} by {item.name} </p>
                   </Col>
                 </Row>
